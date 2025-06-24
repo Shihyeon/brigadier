@@ -44,11 +44,11 @@ public class StringArgumentTypeTest {
     }
 
     @Test
-    public void testParseKoreanJamoWord() throws Exception {
+    public void testParseKoreanJamoString() throws Exception {
         final StringReader reader = mock(StringReader.class);
         when(reader.readString()).thenReturn("ㅎㅏㄴㄱㅡㄹ");
-        assertThat(word().parse(reader), equalTo("ㅎㅏㄴㄱㅡㄹ"));
-        verify(reader).readUnquotedString();
+        assertThat(string().parse(reader), equalTo("ㅎㅏㄴㄱㅡㄹ"));
+        verify(reader).readString();
     }
 
     @Test

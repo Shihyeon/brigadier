@@ -8,7 +8,6 @@ import com.mojang.brigadier.context.StringRange;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +22,14 @@ public class SuggestionsBuilderTest {
     @Before
     public void setUp() throws Exception {
         builder = new SuggestionsBuilder("Hello w", 6);
+    }
+
+    @Test
+    public void suggest_korean() {
+        builder = new SuggestionsBuilder("안", 0);
+        Suggestions result = builder.suggest("안녕").suggest("안녕하세요").suggest("아니요").build();
+        List<String> actual = result.getList().stream().map(Suggestion::getText).collect(Collectors.toList());
+        assertThat(actual, equalTo(Lists.newArrayList("안녕", "안녕하세요")));
     }
 
     @Test

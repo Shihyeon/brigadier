@@ -60,12 +60,19 @@ public class SuggestionsBuilder {
             return this;
         }
 
-        if (!remaining.isEmpty() && !text.startsWith(remaining)) {
+        if (!remaining.isEmpty() && !isAscii(remaining) && !text.startsWith(remaining)) {
             return this;
         }
 
         result.add(new Suggestion(StringRange.between(start, input.length()), text));
         return this;
+    }
+
+    private static boolean isAscii(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) >= 128) return false;
+        }
+        return true;
     }
 
     public SuggestionsBuilder suggest(final String text, final Message tooltip) {
