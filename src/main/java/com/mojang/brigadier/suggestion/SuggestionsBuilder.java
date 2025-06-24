@@ -59,6 +59,11 @@ public class SuggestionsBuilder {
         if (text.equals(remaining)) {
             return this;
         }
+
+        if (!remaining.isEmpty() && !text.startsWith(remaining)) {
+            return this;
+        }
+
         result.add(new Suggestion(StringRange.between(start, input.length()), text));
         return this;
     }

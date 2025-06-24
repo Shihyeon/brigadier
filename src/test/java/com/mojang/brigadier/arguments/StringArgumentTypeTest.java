@@ -36,10 +36,34 @@ public class StringArgumentTypeTest {
     }
 
     @Test
+    public void testParseKoreanWord() throws Exception {
+        final StringReader reader = mock(StringReader.class);
+        when(reader.readUnquotedString()).thenReturn("안녕");
+        assertThat(word().parse(reader), equalTo("안녕"));
+        verify(reader).readUnquotedString();
+    }
+
+    @Test
+    public void testParseKoreanJamoWord() throws Exception {
+        final StringReader reader = mock(StringReader.class);
+        when(reader.readString()).thenReturn("ㅎㅏㄴㄱㅡㄹ");
+        assertThat(word().parse(reader), equalTo("ㅎㅏㄴㄱㅡㄹ"));
+        verify(reader).readUnquotedString();
+    }
+
+    @Test
     public void testParseString() throws Exception {
         final StringReader reader = mock(StringReader.class);
         when(reader.readString()).thenReturn("hello world");
         assertThat(string().parse(reader), equalTo("hello world"));
+        verify(reader).readString();
+    }
+
+    @Test
+    public void testParseKoreanQuotedString() throws Exception {
+        final StringReader reader = mock(StringReader.class);
+        when(reader.readString()).thenReturn("안녕 세상");
+        assertThat(string().parse(reader), equalTo("안녕 세상"));
         verify(reader).readString();
     }
 
@@ -53,6 +77,16 @@ public class StringArgumentTypeTest {
     @Test
     public void testToString() throws Exception {
         assertThat(string(), hasToString("string()"));
+    }
+
+    @Test
+    public void testEscapeIfRequired_Korean() throws Exception {
+        assertThat(escapeIfRequired("안녕"), is(equalTo("안녕")));
+    }
+
+    @Test
+    public void testEscapeIfRequired_KoreanJamo() throws Exception {
+        assertThat(escapeIfRequired("ㅎㅏㄴㄱㅡㄹ"), is(equalTo("ㅎㅏㄴㄱㅡㄹ")));
     }
 
     @Test

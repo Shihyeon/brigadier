@@ -63,7 +63,7 @@ public class StringReader implements ImmutableStringReader {
 
     @Override
     public boolean canRead() {
-        return canRead(1);
+        return cursor < string.length();
     }
 
     @Override
@@ -171,7 +171,10 @@ public class StringReader implements ImmutableStringReader {
             || c >= 'A' && c <= 'Z'
             || c >= 'a' && c <= 'z'
             || c == '_' || c == '-'
-            || c == '.' || c == '+';
+            || c == '.' || c == '+'
+            || (c >= '\uAC00' && c <= '\uD7A3')
+            || (c >= '\u1100' && c <= '\u11FF')
+            || (c >= '\u3130' && c <= '\u318F');
     }
 
     public String readUnquotedString() {
